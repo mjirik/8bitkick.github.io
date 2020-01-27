@@ -16,16 +16,17 @@
   </style>
 </head>
 <body>
-  <h1>Arduino MKR 1010 and IMU shield - Liver extension</h1>
-  <p>First upload sketch to board with <a href="https://create.arduino.cc/editor/dpajak/e7af8e95-0aff-4ce1-b2f7-4e7b446c2577/preview" target=”_blank”>Arduino Create</a></p>
+	<!-- <h1>Liver</h1> -->
+  <!--- <p>First upload sketch to board with <a href="https://create.arduino.cc/editor/dpajak/e7af8e95-0aff-4ce1-b2f7-4e7b446c2577/preview" target=”_blank”>Arduino Create</a></p> --->
 
-  <div style="width:95%;height:100%;border-color: white;border-style: solid;border-width: 1;">
-    <div style="width:100%;height:30px;border-color: white;border-style: solid;border-width: 1;border-left:none;border-top:none;margin-top:5px;" id="status">
-      <button id="bigButton" ></button><div style="display: inline-block;margin-left: 10px" id="infoBar">Click to connect via Bluetooth LE</div>
-    </div>
-    <div style="width:100%;height:200px;margin-top:20px;margin-bottom:5px;">
-      <div id="3d" style="width: 800px; float: left;height:800px; "></div>
-      <div id="graph" style="margin-left: 800px;height:400px;"></div>
+    <div style="width:100%;height:800px;margin-top:20px;margin-bottom:5px;">
+      <div id="3d" style="width: 1100px; float: left;height:800px; "></div>
+      <div style="width:95%;height:100%;border-color: white;border-style: solid;border-width: 1;">
+	    <div style="width:100%;height:30px;border-color: white;border-style: solid;border-width: 1;border-left:none;border-top:none;margin-top:5px;" id="status">
+	      <button id="bigButton" ></button><div style="display: inline-block;margin-left: 10px" id="infoBar">Click to connect via Bluetooth LE</div>
+	    </div>
+
+      <div id="graph" style="margin-left: 1100px;height:400px;"></div>
     </div>
   </div>
 </body>
@@ -170,7 +171,7 @@ function init3D(){
   var loader = new THREE.GLTFLoader();
 
   scene.background = new THREE.Color( 0xffffff );
-  renderer.setSize( 800, 800 );
+  renderer.setSize( 1100, 800 );
   renderer.setPixelRatio( 4 );
   container.appendChild( renderer.domElement );
 
