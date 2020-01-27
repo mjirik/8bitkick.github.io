@@ -169,8 +169,8 @@ function init3D(){
   var container = document.getElementById( '3d' );
   var loader = new THREE.GLTFLoader();
 
-  scene.background = new THREE.Color( 0xffffff );
-  renderer.setSize( 200, 200 );
+  scene.background = new THREE.Color( 0x8f8fff );
+  renderer.setSize( 400, 200 );
   renderer.setPixelRatio( 4 );
   container.appendChild( renderer.domElement );
 
@@ -194,7 +194,7 @@ function init3D(){
 
 
     // Camera
-    camera.position.set (5,0,0);
+    camera.position.set (15,0,0);
     camera.rotation.y = Math.PI; // 180
     camera.lookAt(new THREE.Vector3(0,0,0));
     renderer.render(scene, camera);
