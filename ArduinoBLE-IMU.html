@@ -187,7 +187,7 @@ function init3D(){
 
     // Light
     var light1 = new THREE.PointLight(0xc0f0ff, 9, 0);
-    light1.position.set(20, -1, 20);
+    light1.position.set(200, -1, 20);
     scene.add(light1);
     var directionalLight = new THREE.HemisphereLight( 0xffffbb, 0x002080, 1);
     directionalLight.position.set(180,180,0);
@@ -197,7 +197,7 @@ function init3D(){
 
     //arduinoModel.rotation.x = Matg.PI / 2;
     // Camera
-    camera.position.set (0,0,280);
+    camera.position.set(280,0,0);
     //camera.rotation.y = Math.PI; // 180
     camera.lookAt(new THREE.Vector3(0,0,0));
     //camera.rotation.z = Math.PI / 2; 
