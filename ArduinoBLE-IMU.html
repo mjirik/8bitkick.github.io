@@ -136,8 +136,8 @@ function updateData(x,y,z) {
   arduinoModel.rotation.x = (x-lastX) * 0.0174533; // delta converted to radians
   // arduinoModel.rotation.y = (y-lastY) * 0.0174533;
   // arduinoModel.rotation.z = (z-lastZ) * 0.0174533;
-  arduinoModel.rotation.y = 0;
-  arduinoModel.rotation.z = 0;
+  arduinoModel.rotation.y = 0.0;
+  arduinoModel.rotation.z = 0.0;
 
   renderer.render(scene, camera);
 }
