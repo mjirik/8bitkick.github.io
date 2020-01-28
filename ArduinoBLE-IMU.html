@@ -16,7 +16,7 @@
   </style>
 </head>
 <body>
-	<h1>Liver 8</h1>
+	<h1>Liver 9</h1>
 	<!-- <h1>Liver</h1> -->
   <!--- <p>First upload sketch to board with <a href="https://create.arduino.cc/editor/dpajak/e7af8e95-0aff-4ce1-b2f7-4e7b446c2577/preview" target=”_blank”>Arduino Create</a></p> --->
 
@@ -197,13 +197,13 @@ function init3D(){
 
     //arduinoModel.rotation.x = Matg.PI / 2;
     // Camera
-    camera.position.set(280,0,0);
+    camera.position.set(0,280,0);
     //camera.rotation.y = Math.PI; // 180
     camera.lookAt(new THREE.Vector3(0,0,0));
     //camera.rotation.z = Math.PI / 2; 
-    arduinoModel.rotation.y = Math.PI / 2
+    arduinoModel.rotation.x = Math.PI / 2
     renderer.render(scene, camera);
-    arduinoModel.rotation.z = Math.PI / 2
+    arduinoModel.rotation.y = Math.PI / 2
     renderer.render(scene, camera);
   }
 );
