@@ -199,8 +199,8 @@ function init3D(){
     // Camera
     camera.position.set (0,280,0);
     //camera.rotation.y = Math.PI; // 180
-    camera.rotation.z = Math.PI / 2; 
     camera.lookAt(new THREE.Vector3(0,0,0));
+    camera.rotation.z = Math.PI / 2; 
     renderer.render(scene, camera);
   }
 );
