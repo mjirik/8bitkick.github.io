@@ -134,7 +134,7 @@ function updateData(x,y,z) {
   Plotly.update('graph', {y: [graphData.x,graphData.y,graphData.z]});
 
   // Update 3D model
-  arduinoModel.rotation.x = (x-lastX) * 0.0174533; // delta converted to radians
+  arduinoModel.rotation.x = -(x-lastX) * 0.0174533; // delta converted to radians
   // arduinoModel.rotation.y = (y-lastY) * 0.0174533;
   // arduinoModel.rotation.z = (z-lastZ) * 0.0174533;
   arduinoModel.rotation.y = 0.0;
@@ -195,8 +195,7 @@ function init3D(){
     var light = new THREE.AmbientLight( 0x111111 );
     scene.add( light );
 
-
-
+    arduinoModel.rotation.z = Matg.PI / 2;
     // Camera
     camera.position.set (180,0,0);
     camera.rotation.y = Math.PI; // 180
