@@ -139,7 +139,7 @@ function updateData(x,y,z) {
   // arduinoModel.rotation.y = (y-lastY) * 0.0174533;
   // arduinoModel.rotation.z = (z-lastZ) * 0.0174533;
   arduinoModel.rotation.y = 0.0;
-  arduinoModel.rotation.x = 0.0;
+  arduinoModel.rotation.x = Math.PI / 2;
 
   renderer.render(scene, camera);
 }
