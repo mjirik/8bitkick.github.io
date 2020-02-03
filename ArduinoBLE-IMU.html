@@ -136,7 +136,7 @@ function updateData(x,y,z) {
 
   // Update 3D model
   var euler = new THREE.Euler( x, y, z, 'XYZ' );
-  arduinoModel.rotation.setRotationFromEuler(eurler);
+  arduinoModel.rotation.setRotationFromEuler(euler);
   //arduinoModel.rotation.z = (x-lastX); //* 0.0174533; // delta converted to radians
   //arduinoModel.rotation.y = (y-lastY); //* 0.0174533;
   //arduinoModel.rotation.z = (z-lastZ); // 0.0174533;
