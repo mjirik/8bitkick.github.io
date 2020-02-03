@@ -135,7 +135,7 @@ function updateData(x,y,z) {
   Plotly.update('graph', {y: [graphData.x,graphData.y,graphData.z]});
 
   // Update 3D model
-  var euler = new THREE.Euler( x, y, z, 'XYZ' );
+  var euler = new THREE.Euler( 0, 0, z, 'XYZ' );
   arduinoModel.setRotationFromEuler(euler);
   //arduinoModel.rotation.z = (x-lastX); //* 0.0174533; // delta converted to radians
   //arduinoModel.rotation.y = (y-lastY); //* 0.0174533;
