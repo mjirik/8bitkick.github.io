@@ -107,7 +107,7 @@ function handleData(event) {
   var y = event.target.value.getFloat32(4,true);
   var z = event.target.value.getFloat32(8,true);
 
-  updateData(-x,y,-z); // NB need to invert to match sensor coordinate system to our 3d model
+  updateData(x,y,z); // NB need to invert to match sensor coordinate system to our 3d model
 }
 
 // disconnect function:
