@@ -22,12 +22,26 @@
 
     <div style="width:100%;height:800px;margin-top:20px;margin-bottom:5px;">
       <div id="3d" style="width: 1100px; float: left;height:800px; "></div>
+	  <!-- <div id="3d" style="width: 1100px; float: left;height:800px; "></div> -->
+	  <div id="3d" style="width: 800px; float: left;height:800px; "></div>
       <div style="width:95%;height:100%;border-color: white;border-style: solid;border-width: 1;">
 	    <div style="width:100%;height:30px;border-color: white;border-style: solid;border-width: 1;border-left:none;border-top:none;margin-top:5px;" id="status">
 	      <button id="bigButton" ></button><div style="display: inline-block;margin-left: 10px" id="infoBar">Click to connect via Bluetooth LE</div>
 	    </div>
 
-      <div id="graph" style="margin-left: 1100px;height:400px;"></div>
+      <div>
+	  <input id="checkbox1" type="checkbox" name="control" value="manual" onchange="checkManual()">Manual Control<br>
+	  <output id="checkbox1Val"> </output>
+      <input id="slider1" type="range" min="-4" max="4" step="0.1" value="0" onchange="onSlider1Change()">
+      <output id="sliderVal1"> </output>
+	  <input id="slider2" type="range" min="-4" max="4" step="0.1" value="0" onchange="onSlider2Change()">
+      <output id="sliderVal2"> </output>
+	  <input id="slider3" type="range" min="-4" max="4" step="0.1" value="0" onchange="onSlider3Change()">
+      <output id="sliderVal3"> </output>
+	  </div>
+      <div id="graph1" style="margin-left: 1100px;height:300px;"></div>
+	  <div id="graph2" style="margin-left: 1100px;height:200px;"></div>
+	  <div id="graph3" style="margin-left: 1100px;height:200px;"></div>
     </div>
   </div>
 </body>
@@ -45,7 +59,9 @@ by Tom Igoe
 var myDevice;
 
 // Arduino IMU data array
-var graphData = {x: [], y: [], z:[]};
+var graphData1 = {x: [], y: [], z:[]};
+var graphData2 = {ax:[], ay:[], az:[]};
+var graphData3 = {mx:[], my:[], mz:[]};
 
 // 3D scene
 var renderer = new THREE.WebGLRenderer();
@@ -61,6 +77,49 @@ const infoBar= document.getElementById('infoBar');
 const colors = ["#FF355E","#FD5B78","#FF6037","#FF9966","#FF9933","#FFCC33","#FFFF66","#FFFF66","#CCFF00","#66FF66","#AAF0D1","#50BFE6","#FF6EFF","#EE34D2","#FF00CC","#FF00CC"];
 
 var calibrated = 0;
+var sl1 = 0;
+var sl2 = 0;
+var sl3 = 0;
+
+var useManual = false
+
+function checkManual(){
+   var val = document.getElementById("checkbox1").checked //gets the oninput value
+   document.getElementById('checkbox1Val').innerHTML = val //displays this value to the html page
+   useManual = val
+   console.log(val)
+}
+
+function onSlider1Change(){
+	var val = document.getElementById("slider1").value
+	sl1 = val
+	var euler = new THREE.Euler( sl1, sl2, sl3, 'XYZ' );
+	arduinoModel.setRotationFromEuler(euler);
+    renderer.render(scene, camera);
+	document.getElementById('sliderVal1').innerHTML = val
+	
+}
+
+function onSlider2Change(){
+	var val = document.getElementById("slider2").value
+	sl2 = val
+	var euler = new THREE.Euler( sl1, sl2, sl3, 'XYZ' );
+	arduinoModel.setRotationFromEuler(euler);
+    renderer.render(scene, camera);
+	document.getElementById('sliderVal2').innerHTML = val
+	
+}
+
+function onSlider3Change(){
+	var val = document.getElementById("slider3").value
+	sl3 = val
+	var euler = new THREE.Euler( sl1, sl2, sl3, 'XYZ' );
+	arduinoModel.setRotationFromEuler(euler);
+    renderer.render(scene, camera);
+	document.getElementById('sliderVal3').innerHTML = val
+	
+}
+
 
 if ("bluetooth" in navigator) {
   bigButton.addEventListener('click', function(event) {
@@ -106,8 +165,15 @@ function handleData(event) {
   var x = event.target.value.getFloat32(0,true); // true = byte order from Arduino is littleEndian
   var y = event.target.value.getFloat32(4,true);
   var z = event.target.value.getFloat32(8,true);
+  
+  var ax = event.target.value.getFloat32(12,true); // true = byte order from Arduino is littleEndian
+  var ay = event.target.value.getFloat32(16,true);
+  var az = event.target.value.getFloat32(20,true);
+  var mx = event.target.value.getFloat32(24,true); // true = byte order from Arduino is littleEndian
+  var my = event.target.value.getFloat32(28,true);
+  var mz = event.target.value.getFloat32(32,true);
 
-  updateData(x,y,z); // NB need to invert to match sensor coordinate system to our 3d model
+  updateData(x,y,z, ax, ay, az, mx, my, mz); // NB need to invert to match sensor coordinate system to our 3d model
 }
 
 // disconnect function:
@@ -119,7 +185,7 @@ function disconnect() {
 }
 
 // Handle Arduino client input data
-function updateData(x,y,z) {
+function updateData(x,y,z, ax, ay, az, mx, my, mz) {
   if (calibrated == 0){
     // We assume initial position of physical device is as shown in 3D model before connection
     lastX = x; lastY = y; lastZ = z;
@@ -127,16 +193,28 @@ function updateData(x,y,z) {
     calibrated = 1;
   }
 
-  graphData.x.push(x);graphData.y.push(y);graphData.z.push(z);
+  graphData1.x.push(x);graphData1.y.push(y);graphData1.z.push(z);
+  graphData2.ax.push(ax);graphData2.ay.push(ay);graphData2.az.push(az);
+  graphData3.mx.push(mx);graphData3.my.push(my);graphData3.mz.push(mz);
 
   // Only record last 200 entries
-  if (graphData.x.length>200) {graphData.x.shift();graphData.y.shift();graphData.z.shift();}
+  if (graphData1.x.length>200) {
+  graphData1.x.shift();graphData1.y.shift();graphData1.z.shift();
+  graphData2.ax.shift();graphData2.ay.shift();graphData2.az.shift();
+  graphData3.mx.shift();graphData3.my.shift();graphData3.mz.shift();
+  }
   // Update graph
-  Plotly.update('graph', {y: [graphData.x,graphData.y,graphData.z]});
+  Plotly.update('graph1', {y: [graphData1.x,graphData1.y,graphData1.z]});
+  Plotly.update('graph2', {y: [graphData2.ax,graphData2.ay,graphData2.az]});
+  Plotly.update('graph3', {y: [graphData3.mx,graphData3.my,graphData3.mz]});
+  
+  //checkManual()
 
   // Update 3D model
-  var euler = new THREE.Euler( x, y, z, 'XYZ' );
-  arduinoModel.setRotationFromEuler(euler);
+  if (useManual = false){
+    var euler = new THREE.Euler( x, y, z, 'XYZ' );
+    arduinoModel.setRotationFromEuler(euler);
+  }
   //arduinoModel.rotation.z = (x-lastX); //* 0.0174533; // delta converted to radians
   //arduinoModel.rotation.y = (y-lastY); //* 0.0174533;
   //arduinoModel.rotation.z = (z-lastZ); // 0.0174533;
@@ -149,9 +227,12 @@ function updateData(x,y,z) {
   renderer.render(scene, camera);
 }
 
-function initGraph(){
+
+
+function initOneGraph(graph_id, properties){
+  //var graph_id = 'graph'
   var traceData=[];
-  var properties = ["x","y","z"];
+  //var properties = ["x","y","z", "ax", "ay", "az", "mx", "my", "mz"];
   var i = 0;
   properties.forEach(function(key) {
     i++;
@@ -164,7 +245,7 @@ function initGraph(){
     traceData.push(trace);
   });
 
-  Plotly.plot('graph', traceData,
+  Plotly.plot(graph_id, traceData,
   {
     plot_bgcolor: '#ffffff',
     paper_bgcolor: '#ffffff',
@@ -172,6 +253,16 @@ function initGraph(){
     color: '#ffffff',
     'xaxis': {'range': [500], 'autorange': "true"}
   });
+}
+
+function initGraph(){
+  var properties1 = ["x","y","z"];
+  var properties2 = ["ax", "ay", "az"];
+  var properties3 = ["mx", "my", "mz"];
+  initOneGraph("graph1", properties1);
+  initOneGraph("graph2", properties2);
+  initOneGraph("graph3", properties3);
+
 }
 
 function init3D(){
