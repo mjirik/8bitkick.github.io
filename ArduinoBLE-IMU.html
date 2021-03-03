@@ -166,13 +166,20 @@ function handleData(event) {
   var y = event.target.value.getFloat32(4,true);
   var z = event.target.value.getFloat32(8,true);
   
-  var ax = event.target.value.getFloat32(12,true); // true = byte order from Arduino is littleEndian
-  var ay = event.target.value.getFloat32(16,true);
-  var az = event.target.value.getFloat32(20,true);
-  var mx = event.target.value.getFloat32(24,true); // true = byte order from Arduino is littleEndian
-  var my = event.target.value.getFloat32(28,true);
-  var mz = event.target.value.getFloat32(32,true);
+  //var ax = event.target.value.getFloat32(12,true); // true = byte order from Arduino is littleEndian
+  //var ay = event.target.value.getFloat32(16,true);
+  //var az = event.target.value.getFloat32(20,true);
+  //var mx = event.target.value.getFloat32(24,true); // true = byte order from Arduino is littleEndian
+  //var my = event.target.value.getFloat32(28,true);
+  //var mz = event.target.value.getFloat32(32,true);
+  var ax = 0.0
+  var ay = 0.0
+  var az = 0.0
 
+  var mx = 0.0
+  var my = 0.0
+  var mz = 0.0
+  
   updateData(x,y,z, ax, ay, az, mx, my, mz); // NB need to invert to match sensor coordinate system to our 3d model
 }
 
